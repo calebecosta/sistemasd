@@ -17,7 +17,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 
-let token;
 app.use(bodyParser.json())
 
 
