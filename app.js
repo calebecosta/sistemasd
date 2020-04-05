@@ -37,7 +37,7 @@ function sayHello(call, callback) {
 function main() {
   var server = new grpc.Server();
   server.addService(services.GreeterService, {sayHello: sayHello});
-  console.log("Serviço RPC implantado");
+  console.log("Serviço RPC implantadoo");
   server.bind('localhost:80', grpc.ServerCredentials.createInsecure());
   server.start();
   console.log("Server RPC escutando na porta 50051");
