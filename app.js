@@ -1,7 +1,6 @@
 let express = require("express");
 let app = express();
 let cors = require("cors");
-const axios = require('axios').default;
 
 app.use(cors());
 
