@@ -7,7 +7,7 @@ app.use(cors());
 
 var port = process.env.PORT || 3000;
 app.listen(port,"0.0.0.0",function(){
-    console.log("aaa")
+    console.log("Servidor RPC rodando!")
 
 })
 
@@ -18,6 +18,10 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(bodyParser.json())
+
+app.get('/',function(req,res){
+res.json({ok:"ok"});
+})
 
 
 
