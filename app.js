@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 app.get('/',function(req,res){
-res.json({ok:"ok"});
+res.json({ok:"ok baby"});
 })
 
 
