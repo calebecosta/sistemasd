@@ -14,6 +14,9 @@ Após feito, é entrar na pasta e dá um ```npm install ==save``` para instalar 
 ## Como usar
 
 Acesse clicando aqui [![Acesse](http://img.shields.io/static/v1?label=acessar&message=http://localhost:3000/&color=green)](http://localhost:3000/) ou em :
+```node
+http://localhost:3000
+```
 
 ## Como usar
 
