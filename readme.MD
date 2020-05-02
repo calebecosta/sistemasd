@@ -1,5 +1,5 @@
 # Trabalho sobre WebSockets
-Esse repo é para um trabalho utilizando WebSockets em utilizando NodeJS
+Esse repo é para um trabalho utilizando WebSockets, utilizando NodeJS com Cifra de Vigenere
 
 
 ## Executar
