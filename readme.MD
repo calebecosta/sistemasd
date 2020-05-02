@@ -24,3 +24,7 @@ Para simular um erro vá em app.js e descomente a linha 26
 ```bash
 //mensagem='a';
 ```
+
+## Exemplo : 
+
+![Acesse](https://i.imgur.com/CUvKwrl.png)
