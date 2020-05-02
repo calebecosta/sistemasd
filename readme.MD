@@ -1,33 +1,24 @@
-# Trabalho sobre Sistemas Distribuídos
-Esse repo é para um trabalho utilizando RPC em javascript/java utilizando NodeJS
+# Trabalho - BatePapo utilizando REST
+Esse repo é para um batepapo utilizando a arquitetura REST + NodeJS.
 
 
-## Instalar / Executar
+## Executar
 
-Você pode clonar esse repo via git: 
+Você pode clonar esse repo via git e alternar para o branch "batepapo": 
 
 ```cmd
 git clone https://github.com/calebecosta/sistemasd.git
 ```
-Após feito, é entrar na pasta e dá um ```npm install``` para instalar as packages.
+Após feito, é entrar na pasta e dá um ```npm install --save``` para instalar as packages.
 
 ## Como usar
 
-Para startar o servidor RPC entre em :
-```node
-http://localhost:3000/servidor
+Acesse este mesmo endereço em duas paginas / duas estaçøes e contemple  :[![Acesse](http://img.shields.io/static/v1?label=ir&message=http://localhost:3000/cliente/&color=green)](http://localhost:3000/cliente/) ou abaixo :
 
-```
-após acesse :
-```node
+```bash
 http://localhost:3000/cliente
-
 ```
-Ao colocar seu nome no campo, e clicar em enviar, perceberá que o Console do Node apresentará a seguinte mensagem : 
-```node
-Nome recebido: Olá ${nome}
 
-```
-## Intuito
+## Exemplo : 
 
-Demonstrar execução de procedimento remoto através do TCPV6 / TCPV6
+![Acesse](https://i.imgur.com/CUvKwrl.png)
