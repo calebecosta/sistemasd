@@ -1,91 +1,46 @@
 let express = require("express");
 let cors = require("cors");
 let app = express();
-var messages = require('./helloworld_pb');
-var services = require('./helloworld_grpc_pb');
-var grpc = require('grpc');
-
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var cifrar = require('ciphervgnr');
 
 app.use(cors());
 app.use(express.static('public'));
 
-app.set('view engine', 'ejs');
+let key = 'pesadomano';
 
-let aviso = ['\x1b[33m'];
-let error = ['\x1b[31m'];
-let log = ['\x1b[2m'];
+// cifra DE Vigenère UTILIZADA. Pacote :https://www.npmjs.com/package/ciphervgnr
 
 var port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function () {
-  console.log("Servidor Web Rodando! Para startar o servidor RPC entre em " + aviso[0] + "http://localhost:3000/servidor");
-})
 
-const bodyParser = require('body-parser');
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
-
-app.use(bodyParser.json())
-
-app.get('/servidor', function (req, res) {
-  res.json({ ok: "ok" });
-
-  function sayHello(call, callback) {
-    var reply = new messages.HelloReply();
-
-    reply.setMessage('Olá ' + call.request.getName());
-    callback(null, reply);
-  }
-
-  function rpc() {
-    var server = new grpc.Server();
-    server.addService(services.GreeterService, { sayHello: sayHello });
-    console.log("Servidor acessado!");
-    server.bind('localhost:50001', grpc.ServerCredentials.createInsecure());
-    server.start();
-    console.log("Rodando na Porta TCP 50001");
-    console.log("Acesse" + aviso[0] + " http://localhost:3000/cliente para utilizar o rpc");
-
-  }
-  rpc();
-
-})
-
-app.get('/cliente', function (req, res) {
-  res.render('cliente');
-})
-
-
-app.post('/rpc', function (req, res) {
-
-  if (req.body.method == "rpc") {
-    function main() {
-      var client = new services.GreeterClient('localhost:50001',
-        grpc.credentials.createInsecure());
-      var request = new messages.HelloRequest();
-      var user;
-      if (process.argv.length >= 3) {
-        user = process.argv[2];
-      } else {
-        user = '' + req.body.nome;
-      }
-
-      request.setName(user);
-      client.sayHello(request, function (err, response) {
-        if (response == undefined) {
-          console.log(error[0], "Servidor não está rodando! reinicie a aplicação")
-          res.status(403).end()
-        } else {
-          console.log('Nome recebido:', response.getMessage()); 
-          res.status(201).end()
-        }
-      });
+io.on('connection', function (socket) {
+  socket.on('chat message', function (mensagem) {
+    var cifrada = cifrar(mensagem, key);
+    var descriptografada = cifrar(cifrada, key, true);
+    //descomentar abaixo para testar o erro (padrao é dar certo)
+   mensagem='a';
+    
+    io.emit('message', "O servidor recebeu " + cifrada + " e a descriptografou. Resultado : " + descriptografada + ". O servidor enviou " + descriptografada + " para o cliente");
+    
+    if (mensagem ==descriptografada) {
+      console.log("mensagem :"+mensagem)
+      console.log("des: "+descriptografada)
+      io.emit('success', " Cliente  recebeu a mesma mensagem que é : " + descriptografada);
+    } else {
+      io.emit('error', "Cliente nao recebeu a mesma mensagem. Recebeu: " + mensagem);
     }
-    main();
-  }
-  res.status(200).end()
-})
+
+  });
+});
+
+http.listen(port, function () {
+  console.log("Acesse em: "+"http://localhost:"+ port);
+});
 
 
 
