@@ -6,6 +6,7 @@
     "ciphervgnr": "^1.3.0",
     "cors": "^2.8.5",
     "express": "^4.15.2",
+    "mongoose": "^5.9.11",
     "socket.io": "^1.7.3"
   },
   "scripts": {

@@ -1,0 +1,124 @@
+<html>
+  <head>
+    
+    <title>Criptografia</title>
+ 
+  </head>
+  <body>
+
+      <p> 
+          <!-- Making a text input -->
+          <input type="text" id="msg" placeholder="msg"> 
+          <button onclick="sendJSON()">entrar</button> 
+     </p> 
+     <a id="texto"></a>
+
+
+
+ 
+
+
+    <script>
+  function gerarId(){
+  function id(){
+     return Math.floor((1 + Math.random()) * 0x100000).toString(16).substring(1);
+      }
+  return id()+"-"+id()+"-"+id()+"-"+id()+"-"+id();
+       } 
+
+       function sendJSON(){ 
+    		
+        let result = document.querySelector('.result'); 
+        let name = document.querySelector('#password'); 
+        let email = document.querySelector('#email'); 
+        
+        // Creating a XHR object 
+        let xhr = new XMLHttpRequest(); 
+        let url="/cliente/mensagens/enviar/"; 
+    
+        // open a connection 
+        xhr.open("POST", url, true); 
+    
+        // Set the request header i.e. which type of content you are sending 
+        xhr.setRequestHeader("Content-Type", "application/json"); 
+    
+        // Create a state change callback 
+        xhr.onreadystatechange = function () { 
+            let resp = this.responseText;
+            if (xhr.readyState === 4 && xhr.status === 200) {         
+                   window.alert("enviada")        
+            // Print received data from server 
+           //console.log(resp)
+            //     result.innerHTML = this.responseText; 
+            } else{
+              window.alert("merda")
+               //console.log(this.responseText.error)
+            }
+        }; 
+    
+        // Converting JSON data to string 
+        var data = JSON.stringify(
+        {"usuarioId": gerarId(), 
+         "msg": document.getElementById('msg').value }
+        ); 
+        // Sending data with the request 
+        xhr.send(data); 
+    } 
+
+
+
+function buscarDados() {
+    let xhr = new XMLHttpRequest();
+    let url = "https://corona.lmao.ninja/v2/historical/"
+
+    xhr.open("get", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          document.getElementById("texto").innerHTML = this.responseText
+        }
+        if (xhr.status !== 200) {
+            document.getElementById("texto").innerHTML = "Deu problema"
+            
+        }
+
+    };
+
+    xhr.send();
+}
+
+
+  window.addEventListener('load', function () {
+    buscarDados()
+      });
+
+      // $(function () {
+      //   var socket = io();
+      //   $('form').submit(function(){
+      //     socket.emit('chat message', $('#m').val());
+      //     $('#m').val('');
+      //     return false;
+      //   });
+        
+      //   socket.on('error', function(msg){
+      //     $('#messages').append($('<li style="background-color:tomato;">').text(msg));
+      //     window.scrollTo(0, document.body.scrollHeight);
+      //     window.alert(msg)
+      //   })
+      //   socket.on('success', function(msg){
+      //   window.alert(msg)
+      //   $('#messages').append($('<li style="background-color:green;">').text(msg));
+      //     window.scrollTo(0, document.body.scrollHeight);
+      //   })
+        
+
+      //   socket.on('message', function(msg){
+      //     $('#messages').append($('<li>').text(msg));
+      //     window.scrollTo(0, document.body.scrollHeight);
+      //   });
+      // });
+      
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </body>
+</html>
