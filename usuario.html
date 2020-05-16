@@ -1,124 +1,118 @@
 <html>
-  <head>
-    
-    <title>Criptografia</title>
- 
-  </head>
-  <body>
+<head>
 
-      <p> 
-          <!-- Making a text input -->
-          <input type="text" id="msg" placeholder="msg"> 
-          <button onclick="sendJSON()">entrar</button> 
-     </p> 
-     <a id="texto"></a>
+  <title>Criptografia</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+  <ul id="idrecebida"></ul>
+  <ul id="outrousuario"></ul>
 
+    <input type="text" id="msg" placeholder="msg">
+    <button onclick="sendJSON()">Enviar</button>
+  </p>
 
+  <script>
+    function gerarId() {
 
- 
-
-
-    <script>
-  function gerarId(){
-  function id(){
-     return Math.floor((1 + Math.random()) * 0x100000).toString(16).substring(1);
+      function id() {
+        return Math.floor((1 + Math.random()) * 0x100000).toString(16).substring(1);
       }
-  return id()+"-"+id()+"-"+id()+"-"+id()+"-"+id();
-       } 
+      return id() + "-" + id() + "-" + id() + "-" + id() + "-" + id();
+    }
+    var idgerada = gerarId();
+    localStorage.setItem('minhaid', idgerada)
+    localStorage.setItem('eumsgavisada', 'false');
+    localStorage.setItem('outromsgavisada', 'false');
 
-       function sendJSON(){ 
-    		
-        let result = document.querySelector('.result'); 
-        let name = document.querySelector('#password'); 
-        let email = document.querySelector('#email'); 
-        
-        // Creating a XHR object 
-        let xhr = new XMLHttpRequest(); 
-        let url="/cliente/mensagens/enviar/"; 
-    
-        // open a connection 
-        xhr.open("POST", url, true); 
-    
-        // Set the request header i.e. which type of content you are sending 
-        xhr.setRequestHeader("Content-Type", "application/json"); 
-    
-        // Create a state change callback 
-        xhr.onreadystatechange = function () { 
-            let resp = this.responseText;
-            if (xhr.readyState === 4 && xhr.status === 200) {         
-                   window.alert("enviada")        
-            // Print received data from server 
-           //console.log(resp)
-            //     result.innerHTML = this.responseText; 
-            } else{
-              window.alert("merda")
-               //console.log(this.responseText.error)
-            }
-        }; 
-    
-        // Converting JSON data to string 
-        var data = JSON.stringify(
-        {"usuarioId": gerarId(), 
-         "msg": document.getElementById('msg').value }
-        ); 
-        // Sending data with the request 
-        xhr.send(data); 
-    } 
+    function sendJSON() {
 
+      let result = document.querySelector('.result');
+      let name = document.querySelector('#password');
+      let email = document.querySelector('#email');
+      let xhr = new XMLHttpRequest();
+      let url = "/cliente/mensagens/enviar/";
 
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
 
-function buscarDados() {
-    let xhr = new XMLHttpRequest();
-    let url = "https://corona.lmao.ninja/v2/historical/"
-
-    xhr.open("get", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
+      xhr.onreadystatechange = function () {
+        let resp = this.responseText;
         if (xhr.readyState === 4 && xhr.status === 200) {
-          document.getElementById("texto").innerHTML = this.responseText
+
+          // Print received data from server 
+          //console.log(resp)
+          // result.innerHTML = this.responseText; 
+        } else {
+          //console.log(this.responseText.error)
         }
-        if (xhr.status !== 200) {
-            document.getElementById("texto").innerHTML = "Deu problema"
+      };
+
+      var data = JSON.stringify(
+        {
+          "usuarioId": idgerada,
+          "msg": document.getElementById('msg').value
+        }
+      );
+      xhr.send(data);
+    }
+
+
+    function buscarDados() {
+
+      $.ajax({
+        url: "/cliente/mensagens/checar/",
+        type: "GET",
+        success: function (data) {
+
+          teste[0] = 'teste';
+
+          var recebido = JSON.parse(data);
+          localStorage.setItem('idrecebida', recebido.usuarioId)
+
+          if (recebido.usuarioId == idgerada && localStorage.getItem('eumsgavisada') == "false") { 
+            localStorage.setItem('eumsgavisada', 'true');
+
+            $('#idrecebida').append($('<li id="exposta" style="background-color:green;">').text("Eu: " + recebido.msg));
+            var elemento = document.getElementById('exposta');
+            elemento.setAttribute("idUsuario", recebido.usuarioId)
+
+          } 
+
+          if (recebido.usuarioId !== localStorage.getItem('minhaid') && localStorage.getItem('outromsgavisada') == "false" ){
+            localStorage.setItem('outromsgavisada', 'true');
+            $('#outrousuario').append($('<li id="exposta2" style="background-color:tomato;">').text("Outro usuario: " + recebido.msg));
+            var elemento = document.getElementById('exposta2');
+            elemento.setAttribute("idUsuario", recebido.usuarioId)
             
-        }
+         }
 
-    };
+     if(recebido.usuarioId == idgerada && localStorage.getItem('eumsgavisada') == "true"  && localStorage.getItem('outromsgavisada') == "true" ){
+       
+         localStorage.setItem('eumsgavisada', 'false');
 
-    xhr.send();
-}
+       }else{
+        localStorage.setItem('outromsgavisada','false');
+       }
 
+        //  if(recebido.usuarioId !== idgerada && localStorage.getItem('eumsgavisada') == "true" && localStorage.getItem('outromsgavisada') == "true" ){
+        //   localStorage.setItem('outromsgavisada', 'false');
+        //  }
 
-  window.addEventListener('load', function () {
-    buscarDados()
+        },
+        dataType: "json",
+        complete: setTimeout(function () { buscarDados() }, 5000),
+        timeout: 2000
       });
+    }
 
-      // $(function () {
-      //   var socket = io();
-      //   $('form').submit(function(){
-      //     socket.emit('chat message', $('#m').val());
-      //     $('#m').val('');
-      //     return false;
-      //   });
-        
-      //   socket.on('error', function(msg){
-      //     $('#messages').append($('<li style="background-color:tomato;">').text(msg));
-      //     window.scrollTo(0, document.body.scrollHeight);
-      //     window.alert(msg)
-      //   })
-      //   socket.on('success', function(msg){
-      //   window.alert(msg)
-      //   $('#messages').append($('<li style="background-color:green;">').text(msg));
-      //     window.scrollTo(0, document.body.scrollHeight);
-      //   })
-        
+    window.addEventListener('load', function () {
+      buscarDados()
+    });
 
-      //   socket.on('message', function(msg){
-      //     $('#messages').append($('<li>').text(msg));
-      //     window.scrollTo(0, document.body.scrollHeight);
-      //   });
-      // });
-      
-    </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </body>
+  </script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+</body>
+
 </html>

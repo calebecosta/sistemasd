@@ -29,17 +29,19 @@ app.get('/cliente', function (req, res) {
 app.post('/cliente/mensagens/enviar/', function(req,res){
   res.status(200);
   res.json({ "ok": "ok" })
-  if(!global.armazenamento){
     global.armazenamento = req.body;
-  }
-
-  console.log(global.armazenamento)
+  //console.log(global.armazenamento)
 })
 
-app.get('/cliente/mensagens/checar/:', function(res,req){
-  if(global.armazenamento.lenght){
-    res.json(global.armazenamento.msg);
+app.get('/cliente/mensagens/checar/', function(req,res){
+  if(global.armazenamento){
+   res.json(JSON.stringify(global.armazenamento));
   }
-  console.log("Usuario que veio:" + res.body.usuario);
+  res.status(200);
+
+
+  console.log(global.armazenamento)
+
+ // console.log("Usuario que veio:" + res.body.usuario);
 })
 
