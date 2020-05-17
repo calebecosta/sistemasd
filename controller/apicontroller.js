@@ -6,7 +6,6 @@ exports.gravar_mensagem = function(doc){
     }); 
 }
 
-
 exports.listar = function(callback){
     db.find({})
     .sort({ timestamp:1 }) 

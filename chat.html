@@ -11,7 +11,6 @@
 </head>
 
 <body>
-
   <div class="content container-fluid bootstrap snippets">
     <div class="row row-broken">
       <div class="col-sm-12 col-xs-12 chat" style="overflow: hidden; outline: none;" tabindex="5001">
@@ -19,8 +18,8 @@
           <div class="chat-body">
             <div id="chat-messages"></div>
             <div class="answer-add">
-                <input type="text" id="msg" placeholder="digite sua mensagem">
-                <button onclick="enviarMensagem();" class="btn btn-success">Enviar</button>
+              <input type="text" id="msg" placeholder="digite sua mensagem">
+              <button onclick="enviarMensagem();" class="btn btn-success">Enviar</button>
               <span class="answer-btn answer-btn-2"></span>
             </div>
           </div>
@@ -28,10 +27,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <ul id="msgs"></ul> -->
-  <!-- <input type="text" id="msg" placeholder="digite sua mensagem"> -->
-  
 
   <script>
     localStorage.setItem('data', 0);
@@ -43,6 +38,8 @@
     }
     var idgerada = gerarId();
     localStorage.setItem('minhaid', idgerada);
+
+    //funcao para enviar mensagem ao clicar no botao
 
     function enviarMensagem() {
 
@@ -73,6 +70,9 @@
       );
       xhr.send(data);
     }
+
+    //funcao para pegar o que veio da api e colocar no array de mensagens (nao consegui implementar)
+    //a funcao que persiste as mensagens
     function mensagem(msg) {
       $(".chat").niceScroll();
 
@@ -100,12 +100,13 @@
               </div>`;
       });
 
-     // console.log(htmldiv);
+      // console.log(htmldiv);
       $("div#chat-messages").html(htmldiv);
       $(".chat").niceScroll();
     }
 
 
+//funcao para buscar alteracoes da api 
 
     function buscarDados() {
 
@@ -133,33 +134,31 @@
 
                 $('#msgs').append($('<li id="exposta" style="background-color:green;">').text("🙋‍♂️ eu disse :" + data.slice(-1).pop().msg));
 
-            var msg = {
-              username: 'eu',
-              name: "Eu",
-              avatar: 'https://bootdey.com/img/Content/avatar/avatar1.png',
-              text: data.slice(-1).pop().msg,
-              ago: data.slice(-1).pop().timestamp
-            };
+                var msg = {
+                  username: 'eu',
+                  name: "Eu",
+                  avatar: 'https://bootdey.com/img/Content/avatar/avatar1.png',
+                  text: data.slice(-1).pop().msg,
+                  ago: data.slice(-1).pop().timestamp
+                };
 
-            mensagem(msg);
+                mensagem(msg);
               } else {
                 $('#msgs').append($('<li id="exposta" style="background-color:red;">').text(" 🙋‍♂️ outro usuario disse :" + data.slice(-1).pop().msg));
 
-            var msg = {
-              username: 'outrousuario',
-              name: "outrousuario",
-              avatar: 'https://bootdey.com/img/Content/avatar/avatar1.png',
-              text: data.slice(-1).pop().msg,
-              ago: data.slice(-1).pop().timestamp
-            };
+                var msg = {
+                  username: 'outrousuario',
+                  name: "outrousuario",
+                  avatar: 'https://bootdey.com/img/Content/avatar/avatar1.png',
+                  text: data.slice(-1).pop().msg,
+                  ago: data.slice(-1).pop().timestamp
+                };
 
-            mensagem(msg);
+                mensagem(msg);
 
               }
 
           } else {
-
-
             console.log("sem novas mensagens")
           }
 
