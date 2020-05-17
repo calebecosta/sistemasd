@@ -14,11 +14,7 @@ Após feito, é entrar na pasta e dá um ```npm install --save``` para instalar 
 
 ## Como usar
 
-<<<<<<< HEAD
-Acesse este mesmo endereço em dois navegadores diferente / duas estaçøes e contemple  :[![Acesse](http://img.shields.io/static/v1?label=ir&message=http://localhost:3000/chat/&color=green)](http://localhost:3000/cliente/) ou abaixo :
-=======
 Acesse este mesmo endereço em dois navegadores diferente / duas estaçøes e contemple  :[![Acesse](http://img.shields.io/static/v1?label=ir&message=http://localhost:3000/chat/&color=green)](http://localhost:3000/chat/) ou abaixo :
->>>>>>> e51006602216dfd08683a0b2a873ccdfb16eef67
 
 ```bash
 http://localhost:3000/cliente
@@ -26,8 +22,4 @@ http://localhost:3000/cliente
 
 ## Demonstração: 
 
-<<<<<<< HEAD
 ![Output sample](https://i.imgur.com/GY26pVB.gif)
-=======
-![Output sample](https://i.imgur.com/GY26pVB.gif)
->>>>>>> e51006602216dfd08683a0b2a873ccdfb16eef67
