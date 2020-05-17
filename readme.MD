@@ -14,7 +14,7 @@ Após feito, é entrar na pasta e dá um ```npm install --save``` para instalar 
 
 ## Como usar
 
-Acesse este mesmo endereço em dois navegadores diferente / duas estaçøes e contemple  :[![Acesse](http://img.shields.io/static/v1?label=ir&message=http://localhost:3000/chat/&color=green)](http://localhost:3000/cliente/) ou abaixo :
+Acesse este mesmo endereço em dois navegadores diferente / duas estaçøes e contemple  :[![Acesse](http://img.shields.io/static/v1?label=ir&message=http://localhost:3000/chat/&color=green)](http://localhost:3000/chat/) ou abaixo :
 
 ```bash
 http://localhost:3000/cliente
