@@ -9,7 +9,7 @@ Você pode clonar esse repo via git e alternar para o branch "sockets":
 ```cmd
 git clone https://github.com/calebecosta/sistemasd.git
 ```
-Após feito, é entrar na pasta e dá um ```npm install ==save``` para instalar as packages.
+Após feito, é entrar na pasta e dá um ```npm install --save``` para instalar as packages.
 
 ## Como usar
 
