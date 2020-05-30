@@ -1,5 +1,5 @@
 
-# Trabalho - BatePapo utilizando REST
+# Trabalho AWS
 Esse repo é para uma Aplicacação utilizando o AWS DynamoDB.
 
 
