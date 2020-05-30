@@ -16,24 +16,19 @@ app.use(bodyParser.json())
 var port = process.env.PORT || 3000;
 
 app.listen(port, "0.0.0.0", function () {
-  console.log(`Chat Rodando na porta ${port}`)
   console.log(`Acesse http://localhost:${port}/chat`)
 })
 
-app.get('/chat', function (req, res) {
-  res.sendFile(__dirname + '/chat.html');
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/cliente/mensagens/enviar/', function (req, res) {
-  api.gravar_mensagem(req.body)
-  res.status(200);
-  res.json({ "message": "gravada" })
+app.post('/consultar', function (req, res) {
+
 })
 
-app.get('/cliente/mensagens/checar/', function (req, res) {
-  api.listar(function (callback) {
-    res.send(callback);
-  })
+app.get('/gravar', function (req, res) {
+ 
   res.status(200);
 })
 
