@@ -1,34 +1,66 @@
-let express = require("express");
-let cors = require("cors");
-let app = express();
-const bodyParser = require('body-parser')
-app.use(cors());
-app.use(express.static('public'));
 const api = require('./controller/apicontroller')
+const fastify = require('fastify');
+const app = fastify();
+const path = require('path')
+app.use(require('cors')())
+
+app.register(require('point-of-view'), {
+  engine: {
+    ejs: require('ejs')
+  }
+})
 
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
-
-app.use(bodyParser.json())
+app.register(require('fastify-static'), {
+  root: path.join(__dirname, 'public'),
+  prefix: '/public/', // optional: default '/'
+})
 
 var port = process.env.PORT || 3000;
 
-app.listen(port, "0.0.0.0", function () {
-  console.log(`Acesse http://localhost:${port}/chat`)
-})
+const start = async () => {
+  try {
+    await app.listen(port)
+    console.log(`Acesse http://localhost:${port}/cadastroDevedor`)
+  } catch (err) {
+    console.log(err)
+    process.exit(1)
+  }
+}
+start()
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+app.get('/listarDevedores', function (request, reply) {
+  api.listar(function (callback) {
+    reply.send(callback);
+  })
 });
 
-app.post('/consultar', function (req, res) {
-
+app.post('/cadastro/novaDivida', function (request, reply) {
+  console.log(request.body);
+  api.gravar(request.body, function (callback) {
+    if (callback) {
+      reply.send({ "success": "devedor cadastrado" });
+    } else {
+      reply.send({ "error": "devedor nao cadastrado" });
+    }
+  })
 })
 
-app.get('/gravar', function (req, res) {
- 
-  res.status(200);
+app.post('/cadastro/excluirDevedor', function (request, reply) {
+  console.log(request.body);
+  api.excluir(request.body, function (callback) {
+    if (!callback.error) {
+      reply.send({ "success": "devedor excluido" });
+    } else {
+      reply.send({ "error": "devedor nao existe / já excluido" });
+    }
+  })
 })
 
+app.get('/devedores', function (request, reply) {
+  reply.view('./views/devedores.ejs')
+})
+
+app.get('/cadastroDevedor', function (request, reply) {
+  reply.view('./views/cadastro.ejs')
+})
