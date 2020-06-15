@@ -8,11 +8,11 @@ function excluirDevedor(id) {
     axios.post('http://127.0.0.1:3000/cadastro/excluirDevedor', {
         id: id
     }).then(function (response) {
-        if (response.status == "200" && response.success) {
+        if (response.status == "200") {
             document.getElementById(id).innerHTML = ""
         }
     }).catch(function (error) {
-        document.getElementById(id).innerHTML = error
+        window.alert(error)
     })
 }
 
