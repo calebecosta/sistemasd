@@ -46,6 +46,9 @@ function alterarDevedor(id) {
                 document.getElementById('divida'+id).setAttribute("disabled",true)
                 document.getElementById("data" + id).setAttribute("value", response.data.Attributes.dt_divida)
                 document.getElementById('data'+id).setAttribute("disabled",true)
+                var timestamp = new Date;
+                document.querySelector("#att"+id).textContent =("Ultima atualização ás : "+timestamp.toLocaleString('pt-Br'))
+
             }
 
         }).catch(function (error) {
@@ -119,6 +122,9 @@ function listarDevedor() {
             <span class="oi oi-circle-check"></span>Salvar Edições
           </blockquote>
           <p></p>
+          <blockquote class="blockquote mb-0">
+          <p id="att${response.data[i].id}" class="blockquote-footer">Ultima atualização em : <cite title="Source Title"></cite></p>
+        </blockquote>
         </div>
       </div>
     </div>
