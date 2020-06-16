@@ -35,6 +35,7 @@ app.get('/listarDevedores', function (request, reply) {
   })
 });
 
+
 app.post('/cadastro/novaDivida', function (request, reply) {
   console.log(request.body);
   api.gravar(request.body, function (callback) {
@@ -45,6 +46,18 @@ app.post('/cadastro/novaDivida', function (request, reply) {
     }
   })
 })
+
+app.post('/cadastro/alterarDevedor', function (request, reply) {
+  console.log(request.body);
+  api.alterar(request.body, function (callback) {
+    if (callback) {
+      reply.send(callback);
+    } else {
+      reply.send({ "error": "devedor nao alterado pois nao existe / foi excluido" });
+    }
+  })
+})
+
 
 app.post('/cadastro/excluirDevedor', function (request, reply) {
   console.log(request.body);

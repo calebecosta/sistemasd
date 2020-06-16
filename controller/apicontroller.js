@@ -1,8 +1,8 @@
 var AWS = require("aws-sdk");
 
 AWS.config.update({
-    accessKeyId: '',
-    secretAccessKey: '',
+    accessKeyId: 'AKIAIKCWUDH5CW5B6NCA',
+    secretAccessKey: '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',
     region: 'sa-east-1'
 });
 
@@ -27,6 +27,21 @@ var paramsD = {
     ExpressionAttributeValues: {
         ":val": "40dbba90-add6-11ea-98fc-abee9a69cd37"
     }
+};
+
+var paramsA = {
+    TableName: "Usuario",
+    Key:{
+       "id":"id"
+    },
+    UpdateExpression: "set devedor=:dv, valor_divida=:vd, dt_divida=:dd, empresa=:e",
+    ExpressionAttributeValues: {
+        ":dv":"teste",
+        ":vd":"teste",
+        ":dd":"teste",
+        ":e":"teste"
+    },
+    ReturnValues:"UPDATED_NEW"
 };
 
 exports.listar = function (callback) {
@@ -65,3 +80,21 @@ exports.excluir = function(params,callback){
             }
           })
     }
+
+    exports.alterar = function(params,callback){
+        paramsA.Key.id = params.id;
+        paramsA.ExpressionAttributeValues = { 
+                ":vd": params.valor_divida,
+                ":dd" : params.dt_divida,
+                ":e": params.empresa,
+                ":dv": params.devedor
+        };
+            Usuario.update(paramsA,function(err,data){
+                if(!err){
+                 callback(data);
+                }else{
+                callback({error:err});
+                }
+              })
+        }
+    
